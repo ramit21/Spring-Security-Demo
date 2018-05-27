@@ -29,11 +29,13 @@ Notice 401 ‘Unauthorized’ is returned in response
 		
 		http://localhost:8080/token
 Body: 
+```
 {
 	"userName":"Ramit",
 	"id": 123,
 	"role": "admin"
 }
+```
 In the repsone you will get the JWT autorization token. 
 
 6. Copy the token and paste it in header agains key “Authorisation” and redo request 4 above, and see the response coming.
