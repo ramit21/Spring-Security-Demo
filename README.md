@@ -8,7 +8,7 @@ using Basic and JWT based authentications.
 
 1. Go to https://start.spring.io/, create a project with added dependencies of Web and Security. JWT(JsonWebToken) is not available here so will be added to pom separately.
 2. Load the project into your IDE and add JWT dependency.
-3. Create the necessary config and security files, and bring the application up. Note how 2 security config files have been created using @Order for basic and jwt authentications respectively. 
+3. Create the necessary config and security files, and bring the application up. Note how 2 security config files have been created using @Order for Basic and JWT authentications respectively. 
 4. Bring the application up, and using postman, make get request to JWT based url.
 
 		http://localhost:8080/rest/hello
@@ -36,10 +36,10 @@ In the repsone you will get the JWT autorization token.
 	And see the authentication fail.
 8. Now try to login using Basic auth, providing the user name and un-encrypted password as present in 
 BasicSecurityConfig.java. 
-ie. admin/adminpass or user/userpass
+ie. admin/adminpass or user/password
 Note the authorization token in the header with encoded Basic token. 
 
-Ideally the original passwords (youtube/adminpass/userpass) should not be kept in source code or anywhere else, but have been shown in the code in this poc for understanding purposes only. 
+Ideally the original passwords (youtube/adminpass/password) should not be kept in source code or anywhere else, but have been shown in the code in this poc for understanding purposes only. 
 
 ## Theory
 
