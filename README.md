@@ -21,7 +21,7 @@ Basic auth is based on shared username and password wich have high risk of being
 3. Create the necessary config and security files, and bring the application up.
 4. Bring the application up, and using postman, make get request:
 
-	http://localhost:8080/rest/hello
+		http://localhost:8080/rest/hello
 	
 Notice 401 ‘Unauthorized’ is returned in response
 
