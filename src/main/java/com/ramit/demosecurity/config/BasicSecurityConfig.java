@@ -1,37 +1,48 @@
 package com.ramit.demosecurity.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+import com.ramit.demosecurity.security.BasicAuthEntryPoint;
+
 @EnableWebSecurity
 @Configuration
-@Order(2)
+@Order(1)
 public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
+
+	@Autowired
+	private BasicAuthEntryPoint authEntryPoint;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable()
-        	.authorizeRequests().antMatchers("**/basic/**").authenticated()
-        	.and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		
+		http.csrf().disable().authorizeRequests()
+				.antMatchers("/basic/**").authenticated()
+				.and()
+				.httpBasic()
+				.authenticationEntryPoint(authEntryPoint);
 	}
 
-	@Bean
-	public AuthenticationEntryPoint authenticationEntryPoint() {
-		BasicAuthenticationEntryPoint entryPoint = new BasicAuthenticationEntryPoint();
-		entryPoint.setRealmName("admin realm");
-		System.out.println("Basic auth");
-		return entryPoint;
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		//Original passwords that have been encoded using bcrypt (http://www.devglan.com/online-tools/bcrypt-hash-generator)
+		//for admin password 'adminpass' - $2a$04$fxNcMBR7eQtNFCLuRz7Ppen7ai5dkHNBoYjPhdZt8oeoC998qlbK.
+		//for user password 'password' - $2a$04$AjFEmZeX7mN8zSn57PUEZeJgBeoKMvwteZMBiP57Jb4AGFsUORmLC
+		auth.inMemoryAuthentication().withUser("admin").password("$2a$04$fxNcMBR7eQtNFCLuRz7Ppen7ai5dkHNBoYjPhdZt8oeoC998qlbK.").roles("USER");
+		auth.inMemoryAuthentication().withUser("user").password("$2a$04$AjFEmZeX7mN8zSn57PUEZeJgBeoKMvwteZMBiP57Jb4AGFsUORmLC").roles("USER");
 	}
+	
+	@Bean
+	//Encoder use is mandatory from Spring 2 onwards
+	public BCryptPasswordEncoder encoder() {
+	    return new BCryptPasswordEncoder();
+	}
+
 
 }
