@@ -1,12 +1,12 @@
 # Security-Demo
-Security demo with JWT authentication and Spring Boot
+##Security demo with JWT authentication and Spring Boot
 
 
-What is JWT?
+###What is JWT?
 
 JSON Web Token (JWT) is a means of representing claims to be transferred between two parties. The claims in a JWT are encoded as a JSON object that is digitally signed using JSON Web Signature (JWS) and/or encrypted using JSON Web Encryption (JWE).
 
-How JWT works?
+###How JWT works?
 
 During login the user sends a user/password to the server. The server checks the password, and sends a token to the user. This token states: "this is user <user_id> and his role is <role1, role2>". It is signed by the server, so the server can check later that its content is not altered. For the next requests, the client will only send his token, not his username or password. The server will check the token's validity, and can assume that the information it contains is valid because it signed the token itself!
 
@@ -19,7 +19,7 @@ JWT also help protect you against CSRF attacks.
 Basic auth is based on shared username and password wich have high risk of being hacked.
 
 
-Steps to create and start this poc:
+###Steps to create and start this poc:
 1. Go to https://start.spring.io/, create a project with added dependencies of Web and Security. JWT(JsonWebToken) is not available here so will be added to pom separately.
 2. Load the project into your IDE and add JWT dependency.
 3. Create the necessary config and security files, and bring the application up.
@@ -46,7 +46,7 @@ In the repsone you will get the token.
 6. Copy the token and paste it in header agains key “Authorisation” and redo request 4 above, and see the response coming.
 
 
-Learn more about Security:
+###Learn more about Security:
 
 https://jwt.io/introduction/
 
