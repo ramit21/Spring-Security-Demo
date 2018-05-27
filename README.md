@@ -22,6 +22,7 @@ Basic auth is based on shared username and password wich have high risk of being
 4. Bring the application up, and using postman, make get request:
 
 	http://localhost:8080/rest/hello
+	
 Notice 401 ‘Unauthorized’ is returned in response
 
 5. Now make a post request to get the token (in actual scenario, this token will be created by auth server):
