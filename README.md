@@ -13,7 +13,7 @@ using Basic and JWT based authentications.
 
 		http://localhost:8080/rest/hello
 	
-Notice 401 ‘Unauthorized’ is returned in response
+Notice 401 ‘Unauthorized’ is returned in response.
 
 5. Now make a post request to get the token (in actual scenario, this token will be created by auth server):
 		
