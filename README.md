@@ -36,8 +36,14 @@ In the repsone you will get the JWT autorization token.
 	And see the authentication fail.
 8. Now try to login using Basic auth, providing the user name and un-encrypted password as present in 
 BasicSecurityConfig.java. 
-ie. admin/adminpass or user/password
+ie. user/password
 Note the authorization token in the header with encoded Basic token. 
+9. Now hit the admin url using admin's credential:admin/adminpass
+
+```
+http://localhost:8080/admin/hello
+```
+Take not of how role based basic authentication is covered in BasicSecurityConfig.java
 
 Ideally the original passwords (youtube/adminpass/password) should not be kept in source code or anywhere else, but have been shown in the code in this poc for understanding purposes only. 
 

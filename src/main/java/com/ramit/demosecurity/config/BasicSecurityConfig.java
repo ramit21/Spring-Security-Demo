@@ -23,7 +23,8 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeRequests()
-				.antMatchers("/basic/**").authenticated()
+				.antMatchers("/admin/**").hasRole("ADMIN")
+				.antMatchers("/basic/**").hasRole("USER")
 				.and()
 				.httpBasic()
 				.authenticationEntryPoint(authEntryPoint);
@@ -34,7 +35,7 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
 		//Original passwords that have been encoded using bcrypt (http://www.devglan.com/online-tools/bcrypt-hash-generator)
 		//for admin password 'adminpass' - $2a$04$fxNcMBR7eQtNFCLuRz7Ppen7ai5dkHNBoYjPhdZt8oeoC998qlbK.
 		//for user password 'password' - $2a$04$AjFEmZeX7mN8zSn57PUEZeJgBeoKMvwteZMBiP57Jb4AGFsUORmLC
-		auth.inMemoryAuthentication().withUser("admin").password("$2a$04$fxNcMBR7eQtNFCLuRz7Ppen7ai5dkHNBoYjPhdZt8oeoC998qlbK.").roles("USER");
+		auth.inMemoryAuthentication().withUser("admin").password("$2a$04$fxNcMBR7eQtNFCLuRz7Ppen7ai5dkHNBoYjPhdZt8oeoC998qlbK.").roles("ADMIN");
 		auth.inMemoryAuthentication().withUser("user").password("$2a$04$AjFEmZeX7mN8zSn57PUEZeJgBeoKMvwteZMBiP57Jb4AGFsUORmLC").roles("USER");
 	}
 	
