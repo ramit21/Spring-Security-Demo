@@ -57,6 +57,13 @@ http://localhost:8080/user/hello
 ```
 http://localhost:8080/user/getLoggedInUser
 ```
+12. Spring also provides @Secured annotation to tell what toles are required to call a specific method:
+```
+	@Secured({"ADMIN", "SUPER_USER"}) 
+	public void someMethod() {
+		
+	}
+```
 
 ## Theory
 
