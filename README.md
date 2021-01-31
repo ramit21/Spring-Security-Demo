@@ -53,6 +53,11 @@ Ideally the original passwords (youtube/adminpass/password) should not be kept i
 http://localhost:8080/user/hello
 ```
 
+11. You can fetch the logged in user details in subsequent operations using Spring security provided @AuthenticationPrincipal, and the User class. See BasicHelloController -> getLoggedInUser(). After you are logged in as a user in previous step, hit below url, to get the user name:
+```
+http://localhost:8080/user/getLoggedInUser
+```
+
 ## Theory
 
 ### What is Basic Authentication?
