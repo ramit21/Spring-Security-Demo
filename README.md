@@ -69,12 +69,13 @@ JWT along with SSL (HTTPS) provides very good security for the application.
 
 ### JWT vs Basic Auth:
 JWT also help protect you against CSRF attacks.
-<<<<<<< HEAD
-Basic auth is based on shared username and password which has high risk of being hacked.
-=======
+
 Basic auth is based on shared username and password which have high risk of being hacked.
->>>>>>> 48967ebe4b9c8b4eb07e103f1199ca88d4fa1096
+
 In case of basic authentication, the username and password is only encoded with Base64, but not encrypted or hashed in any way. Hence, it can be compromised by any man in the middle. Hence, it is always recommended to authenticate rest API calls by this header over a ssl connection.
+
+### CSRF
+When a malicious site makes you click on a link etc., and performs a state changing operation on a website, using your logged in credentials on that website. Solution is to generate a csrf token when the user logs in, and store that token  on the client side (as hidden input element of a form, so that it is sent to backend everytime form is submitted, or better in HTML5 Web Storage), and send it on every state changing operation (POST/PUT/DELETE/PATCH) to the backend. Backend would then verify the token and allow the operation. Backend will also return a new CSRF token in the response, the frontend can then save this token for the next state changing operation.
 
 ### Learn more about Security:
 http://www.devglan.com/spring-security/spring-boot-security-rest-basic-authentication
