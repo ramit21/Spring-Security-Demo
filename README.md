@@ -66,6 +66,7 @@ http://localhost:8080/user/getLoggedInUser
 		
 	}
 ```
+To use @Secured, you will need to give @EnableGlobalMethodSecurity(securedEnabled=true) at top of Security config class, and also need to add spring-aop dependency in the pom.
 
 ## Theory
 
