@@ -1,14 +1,14 @@
-# Security-Demo
-## Security demo with JWT authentication and Spring Boot
+# Spring-Security-Demo
+## Demo with Basic/JWT authentication in Spring Boot application
 
 This spring boot based demo application demonstrates authenticating 2 different set of URLs
 using Basic and JWT based authentications.
 
 ## Steps to create and start this poc:
 
-1. Go to https://start.spring.io/, create a project with added dependencies of Web and Security. JWT(JsonWebToken) is not available here so will be added to pom separately.
+1. Go to https://start.spring.io/, create a project with added dependencies of Web and **Security**. JWT(JsonWebToken) is not available here so will be added to pom separately.
 2. Load the project into your IDE and add JWT dependency.
-3. Create the necessary config and security files, and bring the application up. Note how 2 security config files have been created using @Order for Basic and JWT authentications respectively. 
+3. Create the necessary config and security files, and bring the application up. Note how 2 security config files have been created using @Order for Basic and JWT authentications respectively. Also note in config files, WebSecurityConfigurerAdapter class being extended, and the annotations used are from spring-security dependency.
 4. Bring the application up, and using postman, make get request to JWT based url.
 
 		http://localhost:8080/rest/hello
@@ -26,19 +26,19 @@ Body:
 	"role": "admin"
 }
 ```
-In the repsone you will get the JWT autorization token. 
+In the response you will get the JWT authorization token. 
 
-6. Copy the token and paste it in header agains key “Authorisation” and redo request 4 above, and see the response coming.
+6. Copy the token and paste it in header against key “Authorization” and redo request 4 above, and see the response coming.
 7. Time to test Basic auth now. Try to hit the following url:
 	```
 	http://localhost:8080/basic/hello
 	```
 	And see the authentication fail.
 8. Now try to login using Basic auth, providing the user name and un-encrypted password as present in 
-BasicSecurityConfig.java. 
-ie. user/password
+BasicSecurityConfig.java. ie. user/password
 
 Note the authorization token in the header with encoded Basic token. 
+
 9. Now hit the admin url using admin's credential:admin/adminpass
 
 ```
@@ -52,19 +52,19 @@ Ideally the original passwords (youtube/adminpass/password) should not be kept i
 
 ### What is Basic Authentication?
 
-Basic authentification is a standard HTTP header with the user and password encoded in base64 : Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==.The userName and password is encoded in the format username:password. This is one of the simplest technique to protect the REST resources because it does not require cookies. session identifiers or any login pages.
+Basic authentication is a standard HTTP header with the user and password encoded in base64 : Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==.The userName and password is encoded in the format username:password. This is one of the simplest technique to protect the REST resources because it does not require cookies, session identifiers or any login pages.
 
 ### What is JWT?
-JSON Web Token (JWT) is a means of representing claims to be transferred between two parties. The claims in a JWT are encoded as a JSON object that is digitally signed using JSON Web Signature (JWS) and/or encrypted using JSON Web Encryption (JWE).
+JSON Web Token (JWT) is a means of representing claims to be transferred between two parties. The claims in a JWT are encoded as a JSON object that is digitally signed using JSON Web Signature (JWS) and/or encrypted using JSON Web Encryption (JWE). JWT token consists of 3 parts separated by a period: header, body and signature.
 
 ### How JWT works?
-During login the user sends a user/password to the server. The server checks the password, and sends a token to the user. This token states: "this is user <user_id> and his role is <role1, role2>". It is signed by the server, so the server can check later that its content is not altered. For the next requests, the client will only send his token, not his username or password. The server will check the token's validity, and can assume that the information it contains is valid because it signed the token itself!
+During login the user sends a user/password to the server. The server checks the password, and sends a token to the user. This token states: "this is user <user_id> and his role are <role1, role2>". It is signed by the server, so the server can check later that its content is not altered. For the next requests, the client will only send his token, not his username or password. The server will check the token's validity, and can assume that the information it contains is valid because it signed the token itself!
 
 JWT along with SSL (HTTPS) provides very good security for the application.
 
 ### JWT vs Basic Auth:
 JWT also help protect you against CSRF attacks.
-Basic auth is based on shared username and password wich have high risk of being hacked.
+Basic auth is based on shared username and password which has high risk of being hacked.
 In case of basic authentication, the username and password is only encoded with Base64, but not encrypted or hashed in any way. Hence, it can be compromised by any man in the middle. Hence, it is always recommended to authenticate rest API calls by this header over a ssl connection.
 
 ### Learn more about Security:
