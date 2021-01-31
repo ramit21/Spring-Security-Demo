@@ -49,16 +49,13 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception{
 		 //.anyRequest() would authorize all requests
 		  http.csrf().disable()
-          .authorizeRequests().antMatchers("**/rest/**").authenticated()
-          .and()
-          .exceptionHandling().authenticationEntryPoint(entryPoint)
-          .and()
-          .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
+	      .authorizeRequests().antMatchers("**/rest/**").authenticated()
+	      .and()
+	      .exceptionHandling().authenticationEntryPoint(entryPoint)
+	      .and()
+	      .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+	
 		  http.addFilterBefore(authenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 		  http.headers().cacheControl();
 	}
-	
-
-
 }

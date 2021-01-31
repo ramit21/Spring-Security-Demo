@@ -48,6 +48,11 @@ Take note of how role based basic authentication is configured in BasicSecurityC
 
 Ideally the original passwords (youtube/adminpass/password) should not be kept in source code or anywhere else, but have been shown in the code in this poc for understanding purposes only. 
 
+10. In memory user details as used in BasicSecurityconfig are good for demo purposes only. Better way is to use an implementation of UserDetailsService interface as provided by Spring security. This interface has one method - loadUserByName(). So your implementation would have code to fetch the user by name from the database, and return the user as an object of UserDetail class (again provided by Spring Security). See BasicUserDetailsConfig for the setup and hit below url to test the user using Basic auth: user/password
+```
+http://localhost:8080/user/hello
+```
+
 ## Theory
 
 ### What is Basic Authentication?

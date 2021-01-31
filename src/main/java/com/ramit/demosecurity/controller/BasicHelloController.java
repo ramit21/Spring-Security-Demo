@@ -15,4 +15,9 @@ public class BasicHelloController {
 	public String adminOnly(){
 		return "Hello admin !";
 	}
+	
+	@GetMapping("/user/hello")
+	public String userDetailsHello(){
+		return "Hello user !";
+	}
 }
