@@ -6,6 +6,8 @@ using Basic and JWT based authentications.
 
 ## Steps to create and start this poc:
 
+Insomnia json present at root folder can be loaded into Insomnia, and has all of the urls configured below:
+
 1. Go to https://start.spring.io/, create a project with added dependencies of Web and **Security**. JWT(JsonWebToken) is not available here so will be added to pom separately.
 2. Load the project into your IDE and add JWT dependency.
 3. Create the necessary config and security files, and bring the application up. Note how 2 security config files have been created using @Order for Basic and JWT authentications respectively. Also note in config files, WebSecurityConfigurerAdapter class being extended, and the annotations used are from spring-security dependency.
@@ -57,7 +59,7 @@ http://localhost:8080/user/hello
 ```
 http://localhost:8080/user/getLoggedInUser
 ```
-12. Spring also provides @Secured annotation to tell what toles are required to call a specific method:
+12. Method level security: Spring also provides @Secured annotation to tell what roles are required to call a specific method:
 ```
 	@Secured({"ADMIN", "SUPER_USER"}) 
 	public void someMethod() {
