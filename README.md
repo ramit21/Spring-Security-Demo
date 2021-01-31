@@ -68,6 +68,9 @@ http://localhost:8080/user/getLoggedInUser
 ```
 To use @Secured, you will need to give @EnableGlobalMethodSecurity(securedEnabled=true) at top of Security config class, and also need to add spring-aop dependency in the pom.
 
+13. Session management: You would want to limit the max. no. of sessions of the logged in user can have open concurrently. This is imp. when yours is a paid website, and you do not want the user to share his credentials with others. To achieve this, you can set the maximum no. of active  sessions for a given user in Spring security config. See BasicUserDetailsConfig -> configure() method as an example.
+
+
 ## Theory
 
 ### What is Basic Authentication?

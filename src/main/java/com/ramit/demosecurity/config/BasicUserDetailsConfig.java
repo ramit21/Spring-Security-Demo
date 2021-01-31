@@ -29,11 +29,14 @@ public class BasicUserDetailsConfig extends WebSecurityConfigurerAdapter {
 	      .csrf().disable()
 	      .authorizeRequests()
 	        .antMatchers("/user/**").hasAnyRole("USER")
-	        .and()
+	      .and()
 	      .formLogin() //No auth check for login form, in case you have one
 	        .loginPage("/login")
 	        .defaultSuccessUrl("/dashboard")
-	        .permitAll();
+	        .permitAll()
+	       .and()
+	       .sessionManagement()
+	         .maximumSessions(2); //Maximum 2 active sessions for this user at max
 	 }
 
 	@Autowired
