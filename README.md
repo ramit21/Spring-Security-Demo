@@ -10,7 +10,18 @@ Insomnia json present at root folder can be loaded into Insomnia, and has all of
 
 1. Go to https://start.spring.io/, create a project with added dependencies of Web and **Security**. JWT(JsonWebToken) is not available here so will be added to pom separately.
 2. Load the project into your IDE and add JWT dependency.
-3. Create the necessary config and security files, and bring the application up. Note how 2 security config files have been created using @Order for Basic and JWT authentications respectively. Also note in config files, WebSecurityConfigurerAdapter class being extended, and the annotations used are from spring-security dependency.
+3. Create the necessary config and security files, and bring the application up. Note how 2 security config files have been created using @Order for Basic and JWT authentications respectively. Also note in config files, WebSecurityConfigurerAdapter class being extended, and the annotations used are from spring-security dependency. WebSecurityConfigurerAdapter provides configure method which can be overriden in two ways:
+```
+class Myconfig extends WebSecurityConfigurerAdapter {
+	@Override
+	protected void configure(AuthenticationManagerBuilder builder) // For Authentication
+
+	OR
+
+	@Override
+	protected void configure(HttpSecurity http) // For Authorization
+}
+```
 4. Bring the application up, and using postman, make get request to JWT based url.
 
 		http://localhost:8080/rest/hello
@@ -59,7 +70,7 @@ http://localhost:8080/user/hello
 ```
 http://localhost:8080/user/getLoggedInUser
 ```
-12. Method level security: Spring also provides @Secured annotation to tell what roles are required to call a specific method:
+12. **Method level security**: Spring provides @Secured annotation to tell what roles are required to call a specific method:
 ```
 	@Secured({"ADMIN", "SUPER_USER"}) 
 	public void someMethod() {
@@ -68,10 +79,18 @@ http://localhost:8080/user/getLoggedInUser
 ```
 To use @Secured, you will need to give @EnableGlobalMethodSecurity(securedEnabled=true) at top of Security config class, and also need to add spring-aop dependency in the pom.
 
-13. Session management: You would want to limit the max. no. of sessions of the logged in user can have open concurrently. This is imp. when yours is a paid website, and you do not want the user to share his credentials with others. To achieve this, you can set the maximum no. of active  sessions for a given user in Spring security config. See BasicUserDetailsConfig -> configure() method as an example.
+Spring security also provides pre-authorizers using @Preauthorize annotation which can be put at Rest controller mapping functions.
+
+Read more about these at: https://www.baeldung.com/spring-security-method-security
+
+13. **Session management**: You would want to limit the max. no. of sessions of the logged in user can have open concurrently. This is imp. when yours is a paid website, and you do not want the user to share his credentials with others. To achieve this, you can set the maximum no. of active  sessions for a given user in Spring security config. See BasicUserDetailsConfig -> configure() method as an example.
 
 
 ## Theory
+
+### How does Spring Security works?
+
+Spring Security dependency in pom of spring boot when auto configured, creates a delegate filter. This delegate filter forwards request to other filters as per the security config classes configured in code (first authentication filters are invoked and then authorization filters).  
 
 ### What is Basic Authentication?
 
