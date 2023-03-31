@@ -1,0 +1,230 @@
+{
+	"info": {
+		"_postman_id": "4ff91bd8-c404-47b3-a17e-9b4d9305c626",
+		"name": "spring-security",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4405960"
+	},
+	"item": [
+		{
+			"name": "1. GET with JWT missing",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/rest/hello",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"hello"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2. POST with JWT missing Copy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"userName\":\"Ramit\",\r\n\t\"id\": 123,\r\n\t\"role\": \"admin\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3. GET with JWT token received in 2",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJSYW1pdCIsInVzZXJJZCI6IjEyMyIsInJvbGUiOiJhZG1pbiJ9.S-IjuY1mjBYHWZQIRXNQla7m1StIN5u6zzqZ7TtGih0Rbqe-xwXknjP8xaurastU3Et6LG-WoGoanVUF7Vu8-Q",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/rest/hello",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"hello"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4. GET with missing Basic Auth",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/basic/hello",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"basic",
+						"hello"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5. GET with Basic Auth credentials",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "password",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/basic/hello",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"basic",
+						"hello"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6. Basic auth with a user named user",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "password",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/user/hello",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"hello"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7. GET details of logged in user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/user/getLoggedInUser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"getLoggedInUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "8. GET with basic auth of ADMIN user",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "adminpass",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/hello",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"hello"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

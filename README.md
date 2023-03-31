@@ -1,16 +1,73 @@
 # Spring-Security-Demo
 ## Demo with Basic/JWT authentication in Spring Boot application
 
-This spring boot based demo application demonstrates authenticating 2 different set of URLs
-using Basic and JWT based authentications.
+Q. How does Spring Security works?
+Ans. Spring Security dependency in pom of spring boot when auto-configured, creates a delegate filter. 
+This delegate filter forwards request to other filters as per the security config classes configured in code 
+(first authentication filters are invoked and then authorization filters).
+Spring security provides lots of interfaces/annotations/classes that help in AuthN/AuthZ of incoming requests.
 
-## Steps to create and start this poc:
+Once a request for AuthN is successful using spring security, a cookie named JSESSIONID is et in browser,
+which is used for subsequent requests.
 
-Insomnia json present at root folder can be loaded into Insomnia, and has all of the urls configured below:
+This spring boot based demo application demonstrates Basic/JWT authenticating with different set of URLs.
 
-1. Go to https://start.spring.io/, create a project with added dependencies of Web and **Security**. JWT(JsonWebToken) is not available here so will be added to pom separately.
+## Steps to create an app with spring security:
+
+1. Go to https://start.spring.io/, create a project with added dependencies of Web and **spring-boot-starter-security**. 
+   JWT(JsonWebToken) is not available at spring initializer, hence is added to pom separately.
 2. Load the project into your IDE and add JWT dependency.
-3. Create the necessary config and security files, and bring the application up. Note how 2 security config files have been created using @Order for Basic and JWT authentications respectively. Also note in config files, WebSecurityConfigurerAdapter class being extended, and the annotations used are from spring-security dependency. WebSecurityConfigurerAdapter provides configure method which can be overriden in two ways:
+3. Create the necessary config and security files, and bring the application up. 
+   
+This project uses JDK 1.8. If upgrading JDK version, upgrade spring as well.
+
+## Running the app
+Import the postman collection included at the root of the project.
+
+Bring the application up, and using postman, hit the apis as per their order:
+
+1. Get with JWT token missing :
+   
+ Hit url http://localhost:8080/rest/hello, and get JWT missing error
+	
+Notice 401 ‘Unauthorized’ is returned in response.
+
+2. POST call to get JWT token (in actual scenario, this token would be created by an oauth server):
+		
+http://localhost:8080/token
+
+Notice the userdetails in the body of the request.
+
+In the response you will get the JWT authorization token. 
+
+3. Copy the JWT token received above and paste it in header against key **Authorization**.
+   Call rest/hello again, and see the response coming fine this time.
+4. Time to test Basic auth now. Hit this url, and see the authentication fail 401 response:
+	http://localhost:8080/basic/hello
+	
+5. Now hit the api with Basic auth credentials, as configured in BasicSecurityConfig.java, 
+and see 200 ok response from the api. 
+
+Also note the authorization token that got added in the header with encoded Basic token. 
+ie. **Authorization = Basic <encoded token>**
+
+6 and 7. demonstrate use of Spring provided UserDetails class.
+
+Hit an endpoint (/user/hello) protected by basic auth, using username and password of a user named 'user'.
+
+Then hit user/getLoggedInUser which returns the details of the logged in user.
+
+8.Now hit the admin url using admin's credentials :admin/adminpass
+
+## Some files to notice
+
+1. **WebSecurityConfigurerAdapter**:
+
+Note how 3 security config files have been created in this project for different set of urls using Basic and JWT authentications.
+Also note the use of @Order between similar configuration files.
+Also note in config files, WebSecurityConfigurerAdapter class being extended, and the annotations used are from spring-security dependency.
+
+WebSecurityConfigurerAdapter provides configure method which can be overridden in two ways:
 ```
 class Myconfig extends WebSecurityConfigurerAdapter {
 	@Override
@@ -22,55 +79,24 @@ class Myconfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) // For Authorization
 }
 ```
-4. Bring the application up, and using postman, make get request to JWT based url.
+2. Take note of how role are assigned to basic auth users in BasicSecurityConfig.java
 
-		http://localhost:8080/rest/hello
-	
-Notice 401 ‘Unauthorized’ is returned in response.
+3. Ideally the original passwords (youtube/adminpass/password) should not be kept in source code, but have been shown in the code in this poc for understanding purposes only. 
 
-5. Now make a post request to get the token (in actual scenario, this token will be created by auth server):
-		
-		http://localhost:8080/token
-Body: 
-```
-{
-	"userName":"Ramit",
-	"id": 123,
-	"role": "admin"
-}
-```
-In the response you will get the JWT authorization token. 
+4. **UserDetailsService** interface:
 
-6. Copy the token and paste it in header against key “Authorization” and redo request 4 above, and see the response coming.
-7. Time to test Basic auth now. Try to hit the following url:
-	```
-	http://localhost:8080/basic/hello
-	```
-	And see the authentication fail.
-8. Now try to login using Basic auth, providing the user name and un-encrypted password as present in 
-BasicSecurityConfig.java. ie. user/password
+   In memory user details as used in BasicSecurityconfig are good for demo purposes only. 
+   Better way is to use an implementation of **UserDetailsService** interface as provided by Spring security. 
+   This interface has one method - loadUserByName(). 
+   So your implementation would have code to fetch the user by name from a database, or ldap etc., 
+   and return the user as an object of **UserDetail** class (again provided by Spring Security). 
+   See BasicUserDetailsConfig for this setup and /user/hello endpoint that returns user from UserDetails object.
 
-Note the authorization token in the header with encoded Basic token. 
+  You can fetch the logged in user details in subsequent operations using Spring security provided **@AuthenticationPrincipal**, and the User class. 
+  See BasicHelloController -> getLoggedInUser(). 
+  Postman collection endpoints 6 and 7 mentioned above demonstrate this point.
 
-9. Now hit the admin url using admin's credential:admin/adminpass
-
-```
-http://localhost:8080/admin/hello
-```
-Take note of how role based basic authentication is configured in BasicSecurityConfig.java
-
-Ideally the original passwords (youtube/adminpass/password) should not be kept in source code or anywhere else, but have been shown in the code in this poc for understanding purposes only. 
-
-10. In memory user details as used in BasicSecurityconfig are good for demo purposes only. Better way is to use an implementation of UserDetailsService interface as provided by Spring security. This interface has one method - loadUserByName(). So your implementation would have code to fetch the user by name from the database, and return the user as an object of UserDetail class (again provided by Spring Security). See BasicUserDetailsConfig for the setup and hit below url to test the user using Basic auth: user/password
-```
-http://localhost:8080/user/hello
-```
-
-11. You can fetch the logged in user details in subsequent operations using Spring security provided @AuthenticationPrincipal, and the User class. See BasicHelloController -> getLoggedInUser(). After you are logged in as a user in previous step, hit below url, to get the user name:
-```
-http://localhost:8080/user/getLoggedInUser
-```
-12. **Method level security**: Spring provides @Secured annotation to tell what roles are required to call a specific method:
+5. **Method level security**: Spring provides @Secured annotation to tell what roles are required to call a specific method:
 ```
 	@Secured({"ADMIN", "SUPER_USER"}) 
 	public void someMethod() {
@@ -83,14 +109,10 @@ Spring security also provides pre-authorizers using @Preauthorize annotation whi
 
 Read more about these at: https://www.baeldung.com/spring-security-method-security
 
-13. **Session management**: You would want to limit the max. no. of sessions of the logged in user can have open concurrently. This is imp. when yours is a paid website, and you do not want the user to share his credentials with others. To achieve this, you can set the maximum no. of active  sessions for a given user in Spring security config. See BasicUserDetailsConfig -> configure() method as an example.
+6. **Session management**: You would want to limit the max. no. of sessions of the logged in user can have open concurrently. This is imp. when yours is a paid website, and you do not want the user to share his credentials with others. To achieve this, you can set the maximum no. of active  sessions for a given user in Spring security config. See BasicUserDetailsConfig -> configure() method as an example.
 
 
-## Theory
-
-### How does Spring Security works?
-
-Spring Security dependency in pom of spring boot when auto configured, creates a delegate filter. This delegate filter forwards request to other filters as per the security config classes configured in code (first authentication filters are invoked and then authorization filters).  
+## Misc. topics
 
 ### What is Basic Authentication?
 
