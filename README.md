@@ -1,17 +1,18 @@
 # Spring-Security-Demo
 ## Demo with Basic/JWT authentication in Spring Boot application
 
-Spring security helps secure web applications with minimum configurations. 
-Spring security help protect APIS by providing certain classes/interfaces/annotations etc and also provide quick way to secure against CSRF attacks, CORS issues etc.
+Spring security helps secure web applications with minimum configurations.
+Spring security provides lots of interfaces/annotations/classes that help in protecting API endpoints,
+as well as protecting against CSRF attacks (CsrfTokenRequestAttributeHandler class to generate CSRF tokens), CORS allowed origins etc.
 It also helps with method level security (method invocation based on roles). 
 Spring security supports various standards of security like basic, JWT, OAuth, OpenId etc.
-It also supports certain properties that can be given in the application.properties of springgboot application.
+It also supports certain properties that can be given in the application.properties of springboot application.
 
 Q. How does Spring Security works?
 Ans. Spring Security dependency in pom of spring boot when auto-configured, creates a delegate filter. 
 This delegate filter forwards request to other filters as per the security config classes configured in code 
 (first authentication filters are invoked and then authorization filters).
-Spring security provides lots of interfaces/annotations/classes that help in AuthN/AuthZ of incoming requests.
+
 
 Once a request for AuthN is successful using spring security, a cookie named JSESSIONID is et in browser,
 which is used for subsequent requests.
