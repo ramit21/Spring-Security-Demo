@@ -8,6 +8,10 @@ It also helps with method level security (method invocation based on roles).
 Spring security supports various standards of security like basic, JWT, OAuth, OpenId etc.
 It also supports certain properties that can be given in the application.properties of springboot application.
 
+Spring security also supports OAuth2. For eg. enum class called CommonOAuth2Provider, 
+provides oath2 server information like token url, issuer url, auth uri etc., 
+for common OAuth2 servers in the market like Github, Google, facebook etc.
+
 Q. How does Spring Security works?
 Ans. Spring Security dependency in pom of spring boot when auto-configured, creates a delegate filter. 
 This delegate filter forwards request to other filters as per the security config classes configured in code 
