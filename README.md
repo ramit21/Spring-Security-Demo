@@ -11,6 +11,9 @@ It also supports certain properties that can be given in the application.propert
 Spring security also supports OAuth2. For eg. enum class called CommonOAuth2Provider, 
 provides oath2 server information like token url, issuer url, auth uri etc., 
 for common OAuth2 servers in the market like Github, Google, facebook etc.
+These are known as 'social authZ servers', but companies tend to use their own custom oAuth servers.
+Spring sec also provides classes that help register and interact with customer OAuth servers. 
+KeyCloak (check its website) is one option to install and setup your own OAuth server.
 
 Q. How does Spring Security works?
 Ans. Spring Security dependency in pom of spring boot when auto-configured, creates a delegate filter. 
