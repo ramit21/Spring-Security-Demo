@@ -11,11 +11,15 @@ It also supports certain properties that can be given in the application.propert
 Q. How does Spring Security works?
 Ans. Spring Security dependency in pom of spring boot when auto-configured, creates a delegate filter. 
 This delegate filter forwards request to other filters as per the security config classes configured in code 
-(first authentication filters are invoked and then authorization filters).
-
+First authentication filters are invoked and then authorization filters.
+You can also write custom filters.
 
 Once a request for AuthN is successful using spring security, a cookie named JSESSIONID is et in browser,
-which is used for subsequent requests.
+which is used for subsequent requests. Your app should ensure to delete this cookie on logout to protct from 
+cookie stealing attacks. Using JWT tokens is better, as all user information is stored in token itself,
+and you dont have to store the state of logged in user in JSESSIONID cookie. 
+The signature of JWT ensured, that the token that backend generated and sent to client app,
+has not been tampered with in any way.
 
 This spring boot based demo application demonstrates Basic/JWT authenticating with different set of URLs.
 
@@ -86,6 +90,11 @@ class Myconfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) // For Authorization
 }
 ```
+
+Or, you can also use inteface GrantedAuthority, and its one of the implementing classes - SimpleGrantedAuthority for AuthZ putposes.
+It provides methods has fetchAuthorities/hasAuthority, etc., the implementation of which can be connected to 
+roles information stored in application's database.
+
 2. Take note of how role are assigned to basic auth users in BasicSecurityConfig.java
 
 3. Ideally the original passwords (youtube/adminpass/password) should not be kept in source code, but have been shown in the code in this poc for understanding purposes only. 
