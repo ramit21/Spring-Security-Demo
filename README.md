@@ -98,7 +98,7 @@ class Myconfig extends WebSecurityConfigurerAdapter {
 }
 ```
 
-Or, you can also use inteface GrantedAuthority, and its one of the implementing classes - SimpleGrantedAuthority for AuthZ putposes.
+Or, you can also use interface GrantedAuthority, and its one of the implementing classes - SimpleGrantedAuthority for AuthZ putposes.
 It provides methods has fetchAuthorities/hasAuthority, etc., the implementation of which can be connected to 
 roles information stored in application's database.
 
